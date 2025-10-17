@@ -1,0 +1,915 @@
+{
+  "title": "ISS Mission Control - NASA Telemetry Dashboard",
+  "description": "Real-time International Space Station telemetry monitoring powered by ReductrAI Universal Compression Proxy - Works with ANY monitoring tool (Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, etc.)",
+  "widgets": [
+    {
+      "id": 1,
+      "definition": {
+        "title": "🚀 ISS Mission Overview",
+        "type": "note",
+        "content": "# International Space Station Real-Time Telemetry\n\n**Data Pipeline**: NASA → ReductrAI Proxy → Your Monitoring Tool\n\n**Universal Compatibility**: Works with Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, and ANY HTTP/JSON monitoring service\n\n**Compression**: 88-99% reduction depending on data type\n- Metrics: 88.6-91.1%\n- Logs: 97.7-99.4%\n- Traces: 99.3-99.7%\n- Events: 97.6-99.5%\n\n**Data Retention**: 100% local, 10% forwarded\n\n---\n\n### Mission Parameters\n- **Orbital Period**: 90 minutes\n- **Altitude**: ~408 km\n- **Velocity**: 7.66 km/s\n- **Crew**: 7 astronauts",
+        "background_color": "blue",
+        "font_size": "14",
+        "text_align": "left",
+        "show_tick": false
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 4,
+        "height": 3
+      }
+    },
+    {
+      "id": 2,
+      "definition": {
+        "title": "Current Altitude",
+        "type": "query_value",
+        "requests": [
+          {
+            "q": "avg:nasa.iss.altitude{*}",
+            "aggregator": "last",
+            "conditional_formats": [
+              {
+                "comparator": ">",
+                "value": 400,
+                "palette": "white_on_green"
+              },
+              {
+                "comparator": "<",
+                "value": 380,
+                "palette": "white_on_red"
+              }
+            ]
+          }
+        ],
+        "custom_unit": "km",
+        "precision": 1,
+        "text_align": "center",
+        "autoscale": true
+      },
+      "layout": {
+        "x": 4,
+        "y": 0,
+        "width": 2,
+        "height": 2
+      }
+    },
+    {
+      "id": 3,
+      "definition": {
+        "title": "Orbital Velocity",
+        "type": "query_value",
+        "requests": [
+          {
+            "q": "avg:nasa.iss.navigation.velocity_km_s{*}",
+            "aggregator": "last"
+          }
+        ],
+        "custom_unit": "km/s",
+        "precision": 2,
+        "text_align": "center"
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "width": 2,
+        "height": 2
+      }
+    },
+    {
+      "id": 4,
+      "definition": {
+        "title": "Avg Compression Ratio",
+        "type": "query_value",
+        "requests": [
+          {
+            "q": "avg:reductrai.compression.ratio{*}",
+            "aggregator": "avg"
+          }
+        ],
+        "custom_unit": ":1",
+        "precision": 1,
+        "text_align": "center",
+        "conditional_formats": [
+          {
+            "comparator": ">",
+            "value": 100,
+            "palette": "white_on_green"
+          }
+        ]
+      },
+      "layout": {
+        "x": 8,
+        "y": 0,
+        "width": 2,
+        "height": 2
+      }
+    },
+    {
+      "id": 5,
+      "definition": {
+        "title": "Cost Savings",
+        "type": "query_value",
+        "requests": [
+          {
+            "q": "avg:reductrai.savings.percent{*}",
+            "aggregator": "avg"
+          }
+        ],
+        "custom_unit": "%",
+        "precision": 1,
+        "text_align": "center",
+        "conditional_formats": [
+          {
+            "comparator": ">",
+            "value": 80,
+            "palette": "white_on_green"
+          }
+        ]
+      },
+      "layout": {
+        "x": 10,
+        "y": 0,
+        "width": 2,
+        "height": 2
+      }
+    },
+    {
+      "id": 6,
+      "definition": {
+        "title": "🛡️ Life Support Systems",
+        "type": "group",
+        "background_color": "vivid_green",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 601,
+            "definition": {
+              "title": "Cabin Pressure",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.life_support.cabin_pressure_kpa{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "green",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "kPa",
+                "scale": "linear",
+                "min": "99",
+                "max": "103",
+                "include_zero": false
+              },
+              "markers": [
+                {
+                  "value": "y = 101.3",
+                  "display_type": "error dashed",
+                  "label": "Nominal"
+                }
+              ],
+              "custom_links": [],
+              "legend_size": "0"
+            }
+          },
+          {
+            "id": 602,
+            "definition": {
+              "title": "O₂ Level",
+              "type": "gauge",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.life_support.o2_percentage{*}"
+                }
+              ],
+              "min": 19,
+              "max": 23,
+              "thresholds": [
+                {
+                  "value": 19.5,
+                  "color": "red"
+                },
+                {
+                  "value": 20.5,
+                  "color": "yellow"
+                },
+                {
+                  "value": 21,
+                  "color": "green"
+                },
+                {
+                  "value": 22,
+                  "color": "yellow"
+                }
+              ]
+            }
+          },
+          {
+            "id": 603,
+            "definition": {
+              "title": "CO₂ Levels",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.life_support.co2_ppm{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "orange",
+                    "line_type": "solid"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "ppm",
+                "scale": "linear",
+                "include_zero": false
+              },
+              "markers": [
+                {
+                  "value": "y = 5000",
+                  "display_type": "error bold",
+                  "label": "Danger"
+                }
+              ]
+            }
+          },
+          {
+            "id": 604,
+            "definition": {
+              "title": "Temperature & Humidity",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.life_support.temperature_celsius{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "cool"
+                  }
+                },
+                {
+                  "q": "avg:nasa.iss.life_support.humidity_percent{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "purple"
+                  },
+                  "right_yaxis": true
+                }
+              ],
+              "yaxis": {
+                "label": "°C",
+                "scale": "linear",
+                "min": "18",
+                "max": "26"
+              },
+              "right_yaxis": {
+                "label": "%",
+                "scale": "linear",
+                "min": "30",
+                "max": "70"
+              }
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 3,
+        "width": 12,
+        "height": 4
+      }
+    },
+    {
+      "id": 7,
+      "definition": {
+        "title": "⚡ Power Systems",
+        "type": "group",
+        "background_color": "vivid_yellow",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 701,
+            "definition": {
+              "title": "Solar Array Voltage",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.power.solar_array_voltage{*}",
+                  "display_type": "area",
+                  "style": {
+                    "palette": "warm"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "Volts",
+                "scale": "linear",
+                "include_zero": false
+              },
+              "markers": [
+                {
+                  "value": "y = 160",
+                  "display_type": "ok dashed",
+                  "label": "Nominal"
+                }
+              ]
+            }
+          },
+          {
+            "id": 702,
+            "definition": {
+              "title": "Solar Array Current",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.power.solar_array_current{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "orange"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "Amps",
+                "scale": "linear"
+              }
+            }
+          },
+          {
+            "id": 703,
+            "definition": {
+              "title": "Battery Status",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.power.battery_voltage{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "green"
+                  }
+                },
+                {
+                  "q": "avg:nasa.iss.power.battery_temperature_c{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "cool"
+                  },
+                  "right_yaxis": true
+                }
+              ],
+              "yaxis": {
+                "label": "Volts",
+                "scale": "linear",
+                "min": "26",
+                "max": "30"
+              },
+              "right_yaxis": {
+                "label": "°C",
+                "scale": "linear"
+              }
+            }
+          },
+          {
+            "id": 704,
+            "definition": {
+              "title": "Power Consumption",
+              "type": "query_value",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.power.consumption_kw{*}",
+                  "aggregator": "last"
+                }
+              ],
+              "custom_unit": "kW",
+              "precision": 1
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 7,
+        "width": 12,
+        "height": 4
+      }
+    },
+    {
+      "id": 8,
+      "definition": {
+        "title": "🌡️ Thermal Management",
+        "type": "group",
+        "background_color": "vivid_blue",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 801,
+            "definition": {
+              "title": "External Temperature",
+              "type": "heatmap",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.thermal.external_temp_c{*}",
+                  "style": {
+                    "palette": "hot"
+                  }
+                }
+              ],
+              "legend_size": "0"
+            }
+          },
+          {
+            "id": 802,
+            "definition": {
+              "title": "Radiator Temperature",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.thermal.radiator_temp_c{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "cool"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "°C",
+                "scale": "linear"
+              }
+            }
+          },
+          {
+            "id": 803,
+            "definition": {
+              "title": "Coolant Flow Rate",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.thermal.coolant_flow_rate{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "purple"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "L/min",
+                "scale": "linear"
+              }
+            }
+          },
+          {
+            "id": 804,
+            "definition": {
+              "title": "Thermal Gradient",
+              "type": "heat_map",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.thermal.external_temp_c{*} by {location}"
+                }
+              ],
+              "legend_size": "auto"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 11,
+        "width": 12,
+        "height": 4
+      }
+    },
+    {
+      "id": 9,
+      "definition": {
+        "title": "🛰️ Navigation & Orbit",
+        "type": "group",
+        "background_color": "vivid_purple",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 901,
+            "definition": {
+              "title": "Orbital Altitude",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.navigation.altitude_km{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "purple",
+                    "line_type": "solid",
+                    "line_width": "thick"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "km",
+                "scale": "linear",
+                "min": "405",
+                "max": "411"
+              },
+              "markers": [
+                {
+                  "value": "y = 408",
+                  "display_type": "ok dashed",
+                  "label": "Target"
+                }
+              ]
+            }
+          },
+          {
+            "id": 902,
+            "definition": {
+              "title": "Attitude Control",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.navigation.attitude_pitch{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "blue"
+                  },
+                  "metadata": [
+                    {
+                      "alias": "Pitch"
+                    }
+                  ]
+                },
+                {
+                  "q": "avg:nasa.iss.navigation.attitude_roll{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "green"
+                  },
+                  "metadata": [
+                    {
+                      "alias": "Roll"
+                    }
+                  ]
+                },
+                {
+                  "q": "avg:nasa.iss.navigation.attitude_yaw{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "orange"
+                  },
+                  "metadata": [
+                    {
+                      "alias": "Yaw"
+                    }
+                  ]
+                }
+              ],
+              "yaxis": {
+                "label": "degrees",
+                "scale": "linear"
+              }
+            }
+          },
+          {
+            "id": 903,
+            "definition": {
+              "title": "Ground Track",
+              "type": "geomap",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.navigation.latitude{*} by {ground_station}",
+                  "table": {
+                    "formulas": [
+                      {
+                        "formula": "query1",
+                        "conditional_formats": [],
+                        "cell_display_mode": "number"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "view": {
+                "focus": "WORLD"
+              }
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 15,
+        "width": 12,
+        "height": 4
+      }
+    },
+    {
+      "id": 10,
+      "definition": {
+        "title": "📡 Communications",
+        "type": "group",
+        "background_color": "vivid_orange",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 1001,
+            "definition": {
+              "title": "Ku-Band Signal Strength",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.communication.ku_band_signal_strength{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "orange"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "dBm",
+                "scale": "linear"
+              },
+              "markers": [
+                {
+                  "value": "y = -70",
+                  "display_type": "warning dashed",
+                  "label": "Min Signal"
+                }
+              ]
+            }
+          },
+          {
+            "id": 1002,
+            "definition": {
+              "title": "Data Rate",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.communication.data_rate_mbps{*}",
+                  "display_type": "bars",
+                  "style": {
+                    "palette": "green"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "Mbps",
+                "scale": "linear",
+                "min": "0"
+              }
+            }
+          },
+          {
+            "id": 1003,
+            "definition": {
+              "title": "Packet Loss",
+              "type": "query_value",
+              "requests": [
+                {
+                  "q": "avg:nasa.iss.communication.packet_loss_percent{*}",
+                  "aggregator": "last",
+                  "conditional_formats": [
+                    {
+                      "comparator": "<",
+                      "value": 0.1,
+                      "palette": "white_on_green"
+                    },
+                    {
+                      "comparator": ">",
+                      "value": 1,
+                      "palette": "white_on_red"
+                    }
+                  ]
+                }
+              ],
+              "custom_unit": "%",
+              "precision": 2
+            }
+          },
+          {
+            "id": 1004,
+            "definition": {
+              "title": "Ground Station Links",
+              "type": "hostmap",
+              "requests": {
+                "fill": {
+                  "q": "avg:nasa.iss.communication.ground_station_active{*} by {host}"
+                }
+              },
+              "node_type": "host",
+              "no_metric_hosts": false,
+              "no_group_hosts": true,
+              "style": {
+                "palette": "green_to_orange",
+                "palette_flip": false
+              }
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 19,
+        "width": 12,
+        "height": 4
+      }
+    },
+    {
+      "id": 11,
+      "definition": {
+        "title": "📊 ReductrAI Performance Metrics",
+        "type": "group",
+        "background_color": "gray",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 1101,
+            "definition": {
+              "title": "Compression Ratios by Data Type",
+              "type": "toplist",
+              "requests": [
+                {
+                  "q": "top(avg:reductrai.compression.ratio{*} by {data_type}, 10, 'mean', 'desc')"
+                }
+              ]
+            }
+          },
+          {
+            "id": 1102,
+            "definition": {
+              "title": "Data Throughput",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:reductrai.proxy.requests_per_second{*}",
+                  "display_type": "line",
+                  "style": {
+                    "palette": "dog_classic"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "req/s",
+                "scale": "linear"
+              }
+            }
+          },
+          {
+            "id": 1103,
+            "definition": {
+              "title": "Storage Savings",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "cumsum(avg:reductrai.storage.bytes_saved{*})",
+                  "display_type": "area",
+                  "style": {
+                    "palette": "green"
+                  }
+                }
+              ],
+              "yaxis": {
+                "label": "Bytes",
+                "scale": "linear"
+              }
+            }
+          },
+          {
+            "id": 1104,
+            "definition": {
+              "title": "Forwarding vs Local Storage",
+              "type": "sunburst",
+              "requests": [
+                {
+                  "q": "avg:reductrai.storage.local_bytes{*} by {status}",
+                  "style": {
+                    "palette": "dog_classic"
+                  }
+                }
+              ],
+              "legend": {
+                "type": "table"
+              }
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 23,
+        "width": 12,
+        "height": 4
+      }
+    },
+    {
+      "id": 12,
+      "definition": {
+        "title": "🚨 Alert Summary",
+        "type": "alert_value",
+        "alert_id": "123456",
+        "precision": 0,
+        "unit": "Alert",
+        "text_align": "center"
+      },
+      "layout": {
+        "x": 4,
+        "y": 2,
+        "width": 2,
+        "height": 1
+      }
+    },
+    {
+      "id": 13,
+      "definition": {
+        "title": "System Health Score",
+        "type": "service_level_objective",
+        "slo_id": "abc123",
+        "view_type": "detail",
+        "show_error_budget": true,
+        "time_windows": ["7d", "30d", "90d"],
+        "view_mode": "overall"
+      },
+      "layout": {
+        "x": 6,
+        "y": 2,
+        "width": 6,
+        "height": 1
+      }
+    },
+    {
+      "id": 14,
+      "definition": {
+        "title": "Mission Events Log",
+        "type": "log_stream",
+        "logset": "main",
+        "query": "service:nasa-iss mission:*",
+        "columns": ["timestamp", "mission", "event", "severity"],
+        "show_date_column": true,
+        "show_message_column": true,
+        "message_display": "expanded-md"
+      },
+      "layout": {
+        "x": 0,
+        "y": 27,
+        "width": 6,
+        "height": 3
+      }
+    },
+    {
+      "id": 15,
+      "definition": {
+        "title": "Anomaly Detection",
+        "type": "alert_graph",
+        "alert_id": "789012",
+        "viz_type": "timeseries"
+      },
+      "layout": {
+        "x": 6,
+        "y": 27,
+        "width": 6,
+        "height": 3
+      }
+    }
+  ],
+  "template_variables": [
+    {
+      "name": "mission",
+      "default": "iss",
+      "prefix": "mission",
+      "available_values": [
+        "iss",
+        "perseverance",
+        "jwst",
+        "voyager1"
+      ]
+    },
+    {
+      "name": "subsystem",
+      "default": "*",
+      "prefix": "subsystem",
+      "available_values": [
+        "life_support",
+        "power",
+        "thermal",
+        "navigation",
+        "communication"
+      ]
+    },
+    {
+      "name": "environment",
+      "default": "production",
+      "prefix": "env",
+      "available_values": [
+        "production",
+        "staging",
+        "test"
+      ]
+    }
+  ],
+  "layout_type": "free",
+  "is_read_only": false,
+  "notify_list": [],
+  "reflow_type": "fixed",
+  "id": "iss-telemetry-dashboard"
+}

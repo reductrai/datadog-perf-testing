@@ -53,6 +53,23 @@ services:
       - reductrai
     restart: unless-stopped
 
+  # Ollama LLM Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: reductrai-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - reductrai
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   # AI Query Service (Optional - for local LLM)
   ai-query:
     build:
@@ -60,9 +77,9 @@ services:
       dockerfile: Dockerfile
     container_name: reductrai-ai-query
     ports:
-      - "11434:8081"
+      - "8081:8081"
     environment:
-      - OLLAMA_HOST=${OLLAMA_HOST:-http://localhost:11434}
+      - OLLAMA_HOST=http://ollama:11434
       - AI_MODEL=${AI_MODEL:-mistral}
       - AI_QUERY_PORT=8081
     volumes:
@@ -70,6 +87,8 @@ services:
       - reductrai-data:/app/data
     networks:
       - reductrai
+    depends_on:
+      - ollama
     restart: unless-stopped
 
 networks:
@@ -80,4 +99,6 @@ volumes:
   reductrai-data:
     driver: local
   ai-models:
+    driver: local
+  ollama-data:
     driver: local
