@@ -1,7 +1,20 @@
 {
   "title": "ISS Mission Control - NASA Telemetry Dashboard",
-  "description": "ReductrAI Universal Compression Proxy - Works with ANY monitoring tool",
+  "description": "Real-time International Space Station telemetry monitoring powered by ReductrAI Universal Compression Proxy - Works with ANY monitoring tool (Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, etc.)",
   "widgets": [
+    {
+      "definition": {
+        "title": "🚀 ReductrAI Universal Proxy - NASA Telemetry Demo",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "note",
+        "content": "# International Space Station Real-Time Telemetry\n\n**Data Pipeline**: NASA → ReductrAI Proxy → Your Monitoring Tool\n\n**Universal Compatibility**: Works with Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, and ANY HTTP/JSON monitoring service\n\n**Compression Ratios**:\n- Metrics: 88.6-91.1%\n- Logs: 97.7-99.4%\n- Traces: 99.3-99.7%\n- Events: 97.6-99.5%\n\n**Data Retention**: 100% local (compressed), 10% forwarded to monitoring tool\n\n**Cost Savings**: ~90% reduction in monitoring costs",
+        "background_color": "blue",
+        "font_size": "14",
+        "text_align": "left",
+        "show_tick": false
+      }
+    },
     {
       "definition": {
         "title": "ISS Altitude",
@@ -9,13 +22,7 @@
         "title_align": "left",
         "show_legend": true,
         "legend_layout": "auto",
-        "legend_columns": [
-          "avg",
-          "min",
-          "max",
-          "value",
-          "sum"
-        ],
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
         "type": "timeseries",
         "requests": [
           {
@@ -45,7 +52,7 @@
     },
     {
       "definition": {
-        "title": "External Temperature",
+        "title": "Orbital Velocity",
         "title_size": "16",
         "title_align": "left",
         "show_legend": true,
@@ -53,16 +60,420 @@
         "type": "timeseries",
         "requests": [
           {
-            "formulas": [
+            "formulas": [{"formula": "query1"}],
+            "queries": [
               {
-                "formula": "query1"
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.navigation.velocity_km_s{*}"
               }
             ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "purple",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "ReductrAI Compression Ratio",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_value",
+        "requests": [
+          {
+            "response_format": "scalar",
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:reductrai.compression.ratio{*}",
+                "aggregator": "avg"
+              }
+            ],
+            "formulas": [{"formula": "query1"}]
+          }
+        ],
+        "autoscale": true,
+        "precision": 1
+      }
+    },
+    {
+      "definition": {
+        "title": "Cost Savings %",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_value",
+        "requests": [
+          {
+            "response_format": "scalar",
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:reductrai.savings.percent{*}",
+                "aggregator": "avg"
+              }
+            ],
+            "formulas": [{"formula": "query1"}]
+          }
+        ],
+        "autoscale": true,
+        "precision": 1
+      }
+    },
+    {
+      "definition": {
+        "title": "Life Support - Cabin Pressure",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.life_support.cabin_pressure_kpa{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "green",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Life Support - O₂ Level",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.life_support.o2_percentage{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "green",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Life Support - CO₂ Levels",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.life_support.co2_ppm{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "orange",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Life Support - Temperature",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.life_support.temperature_celsius{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "cool",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Power - Solar Array Voltage",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.power.solar_array_voltage{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "warm",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "area"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Power - Solar Array Current",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.power.solar_array_current{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "orange",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Power - Battery Voltage",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.power.battery_voltage{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "green",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Thermal - External Temperature",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
             "queries": [
               {
                 "data_source": "metrics",
                 "name": "query1",
                 "query": "avg:nasa.iss.thermal.external_temp_c{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "hot",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Thermal - Radiator Temperature",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.thermal.radiator_temp_c{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "cool",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Communications - Signal Strength",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.communication.ku_band_signal_strength{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "orange",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Communications - Data Rate",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:nasa.iss.communication.data_rate_mbps{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "green",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "bars"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "ReductrAI - Compression by Data Type",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:reductrai.compression.ratio{*} by {data_type}"
               }
             ],
             "response_format": "timeseries",
@@ -76,9 +487,46 @@
           }
         ]
       }
+    },
+    {
+      "definition": {
+        "title": "ReductrAI - Proxy Throughput",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{"formula": "query1"}],
+            "queries": [
+              {
+                "data_source": "metrics",
+                "name": "query1",
+                "query": "avg:reductrai.proxy.requests_per_second{*}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "purple",
+              "order_by": "values",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ]
+      }
     }
   ],
-  "template_variables": [],
+  "template_variables": [
+    {
+      "name": "mission",
+      "default": "iss",
+      "prefix": "mission",
+      "available_values": ["iss", "perseverance", "jwst", "voyager1"]
+    }
+  ],
   "layout_type": "ordered",
   "notify_list": [],
   "reflow_type": "auto"
