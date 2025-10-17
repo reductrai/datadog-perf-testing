@@ -1,20 +1,7 @@
 {
   "title": "ISS Mission Control - NASA Telemetry Dashboard",
-  "description": "Real-time International Space Station telemetry monitoring powered by ReductrAI Universal Compression Proxy - Works with ANY monitoring tool (Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, etc.)",
+  "description": "ReductrAI Universal Compression Proxy - Works with ANY monitoring tool (Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, etc.)",
   "widgets": [
-    {
-      "definition": {
-        "title": "🚀 ReductrAI Universal Proxy - NASA Telemetry Demo",
-        "title_size": "16",
-        "title_align": "left",
-        "type": "note",
-        "content": "# International Space Station Real-Time Telemetry\n\n**Data Pipeline**: NASA → ReductrAI Proxy → Your Monitoring Tool\n\n**Universal Compatibility**: Works with Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, and ANY HTTP/JSON monitoring service\n\n**Compression Ratios**:\n- Metrics: 88.6-91.1%\n- Logs: 97.7-99.4%\n- Traces: 99.3-99.7%\n- Events: 97.6-99.5%\n\n**Data Retention**: 100% local (compressed), 10% forwarded to monitoring tool\n\n**Cost Savings**: ~90% reduction in monitoring costs",
-        "background_color": "blue",
-        "font_size": "14",
-        "text_align": "left",
-        "show_tick": false
-      }
-    },
     {
       "definition": {
         "title": "ISS Altitude",
@@ -78,54 +65,6 @@
             "display_type": "line"
           }
         ]
-      }
-    },
-    {
-      "definition": {
-        "title": "ReductrAI Compression Ratio",
-        "title_size": "16",
-        "title_align": "left",
-        "type": "query_value",
-        "requests": [
-          {
-            "response_format": "scalar",
-            "queries": [
-              {
-                "data_source": "metrics",
-                "name": "query1",
-                "query": "avg:reductrai.compression.ratio{*}",
-                "aggregator": "avg"
-              }
-            ],
-            "formulas": [{"formula": "query1"}]
-          }
-        ],
-        "autoscale": true,
-        "precision": 1
-      }
-    },
-    {
-      "definition": {
-        "title": "Cost Savings %",
-        "title_size": "16",
-        "title_align": "left",
-        "type": "query_value",
-        "requests": [
-          {
-            "response_format": "scalar",
-            "queries": [
-              {
-                "data_source": "metrics",
-                "name": "query1",
-                "query": "avg:reductrai.savings.percent{*}",
-                "aggregator": "avg"
-              }
-            ],
-            "formulas": [{"formula": "query1"}]
-          }
-        ],
-        "autoscale": true,
-        "precision": 1
       }
     },
     {
@@ -457,76 +396,9 @@
           }
         ]
       }
-    },
-    {
-      "definition": {
-        "title": "ReductrAI - Compression by Data Type",
-        "title_size": "16",
-        "title_align": "left",
-        "show_legend": true,
-        "legend_layout": "auto",
-        "type": "timeseries",
-        "requests": [
-          {
-            "formulas": [{"formula": "query1"}],
-            "queries": [
-              {
-                "data_source": "metrics",
-                "name": "query1",
-                "query": "avg:reductrai.compression.ratio{*} by {data_type}"
-              }
-            ],
-            "response_format": "timeseries",
-            "style": {
-              "palette": "dog_classic",
-              "order_by": "values",
-              "line_type": "solid",
-              "line_width": "normal"
-            },
-            "display_type": "line"
-          }
-        ]
-      }
-    },
-    {
-      "definition": {
-        "title": "ReductrAI - Proxy Throughput",
-        "title_size": "16",
-        "title_align": "left",
-        "show_legend": true,
-        "legend_layout": "auto",
-        "type": "timeseries",
-        "requests": [
-          {
-            "formulas": [{"formula": "query1"}],
-            "queries": [
-              {
-                "data_source": "metrics",
-                "name": "query1",
-                "query": "avg:reductrai.proxy.requests_per_second{*}"
-              }
-            ],
-            "response_format": "timeseries",
-            "style": {
-              "palette": "purple",
-              "order_by": "values",
-              "line_type": "solid",
-              "line_width": "normal"
-            },
-            "display_type": "line"
-          }
-        ]
-      }
     }
   ],
-  "template_variables": [
-    {
-      "name": "mission",
-      "default": "iss",
-      "prefix": "mission",
-      "available_values": ["iss", "perseverance", "jwst", "voyager1"]
-    }
-  ],
+  "template_variables": [],
   "layout_type": "ordered",
   "notify_list": [],
   "reflow_type": "auto"
