@@ -14,6 +14,9 @@ services:
       - NODE_ENV=production
       - REDUCTRAI_COMPRESSION=true
       - REDUCTRAI_COMPRESSION_LEVEL=heavy
+      # Proxy mode configuration
+      - PROXY_MODE=sample
+      - SAMPLE_RATE=0.1
       # Backend services (optional)
       - DATADOG_API_KEY=${DATADOG_API_KEY:-}
       - DATADOG_ENDPOINT=${DATADOG_ENDPOINT:-https://api.datadoghq.com}
