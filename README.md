@@ -135,15 +135,19 @@ Key metrics:
 - **Status**: Running and healthy
 - **Health Check**: `curl http://localhost:8080/health`
 
-### Dashboard Service (Optional)
-- **Port**: 5173
+### Dashboard Service
+- **Port**: 5173 (nginx serving React app)
 - **Image**: Built from `../reductrai-dashboard`
-- **Note**: Currently has TypeScript build issues - skip for now
+- **Status**: ✅ Running and healthy
+- **Features**: Real-time metrics visualization, system resource monitoring
+- **Access**: http://localhost:5173
 
-### AI Query Service (Optional)
-- **Port**: 11434
+### AI Query Service
+- **Port**: 11434 (maps to internal 8081)
 - **Image**: Built from `../reductrai-ai-query`
-- **Note**: Currently has ES module configuration issues - skip for now
+- **Status**: ✅ Running and healthy
+- **Features**: Natural language queries against compressed metrics
+- **LLM**: Configured for Ollama/Mistral integration
 
 ## Configuration Files
 
@@ -234,11 +238,12 @@ reductrai-proxy/
 ## Next Steps
 
 1. ✅ Proxy running in Docker on port 8080
-2. ✅ Datadog integration verified with test metrics
-3. ✅ Metrics visible in Datadog dashboard
-4. ⏭️ Fix dashboard TypeScript build (optional)
-5. ⏭️ Fix ai-query ES module issues (optional)
-6. ⏭️ Configure your applications to use the proxy
+2. ✅ Dashboard TypeScript build fixed and running on port 5173
+3. ✅ AI-Query ES module issues resolved and running on port 11434
+4. ✅ All JavaScript errors in dashboard fixed
+5. ✅ Inter-service communication verified
+6. ✅ Datadog integration verified with test metrics
+7. ⏭️ Configure your applications to use the proxy at http://localhost:8080
 
 ## Support
 
@@ -248,12 +253,16 @@ reductrai-proxy/
 
 ## Verified Working Configuration
 
-Last tested: 2025-10-15
+Last tested: 2025-10-17
 
 - ✅ Docker Compose version 3.8
 - ✅ Node.js 20-alpine base image
 - ✅ Datadog API v2 metrics endpoint
 - ✅ 100% forward rate to Datadog
 - ✅ Automatic format detection
-- ✅ Health checks passing
+- ✅ All health checks passing
 - ✅ Zero errors on test metrics
+- ✅ Dashboard UI fully functional (TypeScript build fixed)
+- ✅ AI-Query service operational (ES modules fixed)
+- ✅ Inter-service communication verified
+- ✅ All JavaScript errors resolved
