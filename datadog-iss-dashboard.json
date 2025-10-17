@@ -3,7 +3,6 @@
   "description": "Real-time International Space Station telemetry monitoring powered by ReductrAI Universal Compression Proxy - Works with ANY monitoring tool (Datadog, New Relic, Dynatrace, Prometheus, Splunk, AppDynamics, etc.)",
   "widgets": [
     {
-      "id": 1,
       "definition": {
         "title": "🚀 ISS Mission Overview",
         "type": "note",
@@ -21,7 +20,6 @@
       }
     },
     {
-      "id": 2,
       "definition": {
         "title": "Current Altitude",
         "type": "query_value",
@@ -56,7 +54,6 @@
       }
     },
     {
-      "id": 3,
       "definition": {
         "title": "Orbital Velocity",
         "type": "query_value",
@@ -78,7 +75,6 @@
       }
     },
     {
-      "id": 4,
       "definition": {
         "title": "Avg Compression Ratio",
         "type": "query_value",
@@ -107,7 +103,6 @@
       }
     },
     {
-      "id": 5,
       "definition": {
         "title": "Cost Savings",
         "type": "query_value",
@@ -136,7 +131,6 @@
       }
     },
     {
-      "id": 6,
       "definition": {
         "title": "🛡️ Life Support Systems",
         "type": "group",
@@ -144,7 +138,6 @@
         "layout_type": "ordered",
         "widgets": [
           {
-            "id": 601,
             "definition": {
               "title": "Cabin Pressure",
               "type": "timeseries",
@@ -178,7 +171,6 @@
             }
           },
           {
-            "id": 602,
             "definition": {
               "title": "O₂ Level",
               "type": "gauge",
@@ -210,7 +202,6 @@
             }
           },
           {
-            "id": 603,
             "definition": {
               "title": "CO₂ Levels",
               "type": "timeseries",
@@ -239,7 +230,6 @@
             }
           },
           {
-            "id": 604,
             "definition": {
               "title": "Temperature & Humidity",
               "type": "timeseries",
@@ -284,7 +274,6 @@
       }
     },
     {
-      "id": 7,
       "definition": {
         "title": "⚡ Power Systems",
         "type": "group",
@@ -292,7 +281,6 @@
         "layout_type": "ordered",
         "widgets": [
           {
-            "id": 701,
             "definition": {
               "title": "Solar Array Voltage",
               "type": "timeseries",
@@ -320,7 +308,6 @@
             }
           },
           {
-            "id": 702,
             "definition": {
               "title": "Solar Array Current",
               "type": "timeseries",
@@ -340,7 +327,6 @@
             }
           },
           {
-            "id": 703,
             "definition": {
               "title": "Battery Status",
               "type": "timeseries",
@@ -374,7 +360,6 @@
             }
           },
           {
-            "id": 704,
             "definition": {
               "title": "Power Consumption",
               "type": "query_value",
@@ -398,7 +383,6 @@
       }
     },
     {
-      "id": 8,
       "definition": {
         "title": "🌡️ Thermal Management",
         "type": "group",
@@ -406,7 +390,6 @@
         "layout_type": "ordered",
         "widgets": [
           {
-            "id": 801,
             "definition": {
               "title": "External Temperature",
               "type": "heatmap",
@@ -422,7 +405,6 @@
             }
           },
           {
-            "id": 802,
             "definition": {
               "title": "Radiator Temperature",
               "type": "timeseries",
@@ -442,7 +424,6 @@
             }
           },
           {
-            "id": 803,
             "definition": {
               "title": "Coolant Flow Rate",
               "type": "timeseries",
@@ -462,7 +443,6 @@
             }
           },
           {
-            "id": 804,
             "definition": {
               "title": "Thermal Gradient",
               "type": "heat_map",
@@ -484,7 +464,6 @@
       }
     },
     {
-      "id": 9,
       "definition": {
         "title": "🛰️ Navigation & Orbit",
         "type": "group",
@@ -492,7 +471,6 @@
         "layout_type": "ordered",
         "widgets": [
           {
-            "id": 901,
             "definition": {
               "title": "Orbital Altitude",
               "type": "timeseries",
@@ -523,7 +501,6 @@
             }
           },
           {
-            "id": 902,
             "definition": {
               "title": "Attitude Control",
               "type": "timeseries",
@@ -572,7 +549,6 @@
             }
           },
           {
-            "id": 903,
             "definition": {
               "title": "Ground Track",
               "type": "geomap",
@@ -605,7 +581,6 @@
       }
     },
     {
-      "id": 10,
       "definition": {
         "title": "📡 Communications",
         "type": "group",
@@ -613,7 +588,6 @@
         "layout_type": "ordered",
         "widgets": [
           {
-            "id": 1001,
             "definition": {
               "title": "Ku-Band Signal Strength",
               "type": "timeseries",
@@ -640,7 +614,6 @@
             }
           },
           {
-            "id": 1002,
             "definition": {
               "title": "Data Rate",
               "type": "timeseries",
@@ -661,7 +634,6 @@
             }
           },
           {
-            "id": 1003,
             "definition": {
               "title": "Packet Loss",
               "type": "query_value",
@@ -688,7 +660,6 @@
             }
           },
           {
-            "id": 1004,
             "definition": {
               "title": "Ground Station Links",
               "type": "hostmap",
@@ -716,7 +687,6 @@
       }
     },
     {
-      "id": 11,
       "definition": {
         "title": "📊 ReductrAI Performance Metrics",
         "type": "group",
@@ -724,7 +694,6 @@
         "layout_type": "ordered",
         "widgets": [
           {
-            "id": 1101,
             "definition": {
               "title": "Compression Ratios by Data Type",
               "type": "toplist",
@@ -736,7 +705,6 @@
             }
           },
           {
-            "id": 1102,
             "definition": {
               "title": "Data Throughput",
               "type": "timeseries",
@@ -756,7 +724,6 @@
             }
           },
           {
-            "id": 1103,
             "definition": {
               "title": "Storage Savings",
               "type": "timeseries",
@@ -776,7 +743,6 @@
             }
           },
           {
-            "id": 1104,
             "definition": {
               "title": "Forwarding vs Local Storage",
               "type": "sunburst",
@@ -803,7 +769,6 @@
       }
     },
     {
-      "id": 12,
       "definition": {
         "title": "🚨 Critical Alerts",
         "type": "note",
@@ -821,7 +786,6 @@
       }
     },
     {
-      "id": 13,
       "definition": {
         "title": "System Health Score",
         "type": "query_value",
@@ -856,7 +820,6 @@
       }
     },
     {
-      "id": 14,
       "definition": {
         "title": "Mission Events Log",
         "type": "timeseries",
@@ -884,7 +847,6 @@
       }
     },
     {
-      "id": 15,
       "definition": {
         "title": "Anomaly Detection - System Stability",
         "type": "timeseries",
