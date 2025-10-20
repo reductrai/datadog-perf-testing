@@ -17,6 +17,7 @@ Your Apps → ReductrAI Proxy (localhost:8080) → Datadog API
 ## Prerequisites
 
 - Docker and Docker Compose installed
+- Internet connection (to pull images from Docker Hub)
 - Datadog API key (free trial available at https://www.datadoghq.com)
 - ReductrAI license key (use `RF-DEMO-2025` for demo/testing)
 
@@ -131,23 +132,29 @@ Key metrics:
 
 ### Proxy Service
 - **Port**: 8080
-- **Image**: Built from `../reductrai-proxy` using `Dockerfile.prod`
+- **Image**: `reductrai/proxy:latest` (from Docker Hub)
 - **Status**: Running and healthy
 - **Health Check**: `curl http://localhost:8080/health`
 
 ### Dashboard Service
 - **Port**: 5173 (nginx serving React app)
-- **Image**: Built from `../reductrai-dashboard`
+- **Image**: `reductrai/dashboard:latest` (from Docker Hub)
 - **Status**: ✅ Running and healthy
 - **Features**: Real-time metrics visualization, system resource monitoring
 - **Access**: http://localhost:5173
 
 ### AI Query Service
-- **Port**: 11434 (maps to internal 8081)
-- **Image**: Built from `../reductrai-ai-query`
+- **Port**: 8081
+- **Image**: `reductrai/ai-query:latest` (from Docker Hub)
 - **Status**: ✅ Running and healthy
 - **Features**: Natural language queries against compressed metrics
 - **LLM**: Configured for Ollama/Mistral integration
+
+### Ollama Service
+- **Port**: 11434
+- **Image**: `ollama/ollama:latest` (from Docker Hub)
+- **Status**: ✅ Running and healthy
+- **Features**: Local LLM service for AI queries
 
 ## Configuration Files
 
@@ -158,25 +165,31 @@ Key configuration:
 ```yaml
 services:
   proxy:
-    build:
-      context: ../reductrai-proxy
-      dockerfile: Dockerfile.prod
+    image: reductrai/proxy:latest
     ports:
       - "8080:8080"
     environment:
       - REDUCTRAI_LICENSE_KEY=${REDUCTRAI_LICENSE_KEY}
       - DATADOG_API_KEY=${DATADOG_API_KEY}
       - FORWARD_TO=https://api.datadoghq.com
+
+  dashboard:
+    image: reductrai/dashboard:latest
+    ports:
+      - "5173:80"
+
+  ai-query:
+    image: reductrai/ai-query:latest
+    ports:
+      - "8081:8081"
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
 ```
 
-### Dockerfile.prod
-Located at: `/Users/jessiehermosillo/Apiflow/reductrai-proxy/Dockerfile.prod`
-
-Multi-stage build optimized for production:
-- **Base Image**: node:20-alpine
-- **Final Size**: ~1.12GB
-- **Dependencies**: 637 packages (production only)
-- **Runtime**: tsx (no compilation needed)
+All images are automatically pulled from Docker Hub - no local build required!
 
 ## Performance Metrics
 
@@ -209,30 +222,35 @@ Common issues:
 4. Wait 1-2 minutes for Datadog to process metrics
 5. Check for error responses from Datadog
 
-### Build Hangs at "sending tarball"
+### Images Not Found
 
-This is a known issue with large Docker images. The build completes successfully but export takes time.
-
-Workaround:
+If you see "image not found" errors, ensure you have internet connectivity to pull from Docker Hub:
 ```bash
-# Use existing images instead of rebuilding
-docker-compose up -d proxy
+docker pull reductrai/proxy:latest
+docker pull reductrai/dashboard:latest
+docker pull reductrai/ai-query:latest
+docker pull ollama/ollama:latest
 ```
 
 ## Project Structure
 
 ```
 reductrai-datadog-perf-testing/
-├── docker-compose.yml      # Service orchestration
+├── docker-compose.yml      # Service orchestration (uses published images)
 ├── .env                    # Environment variables (not in git)
-└── README.md              # This file
+├── .env.example            # Example environment configuration
+├── README.md              # This file
+├── INTEGRATION-GUIDE.md    # Detailed integration instructions
+├── CASE-STUDY-NASA-TELEMETRY.md  # NASA ISS telemetry case study
+├── datadog-iss-dashboard.json    # Datadog dashboard configuration
+├── import-dashboard.sh     # Script to import dashboard to Datadog
+└── Dockerfile.nasa         # NASA telemetry simulator
 
-reductrai-proxy/
-├── Dockerfile.prod        # Optimized production build
-├── Dockerfile.dev         # Development build
-├── .dockerignore          # Build exclusions
-├── apps/proxy/            # Proxy service code
-└── packages/core/         # Core compression library
+All Docker images are pulled from Docker Hub:
+- reductrai/proxy:latest
+- reductrai/dashboard:latest
+- reductrai/ai-query:latest
+- ollama/ollama:latest
 ```
 
 ## Next Steps
